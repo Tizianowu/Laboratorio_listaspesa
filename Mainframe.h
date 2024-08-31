@@ -5,6 +5,7 @@
 #ifndef LABORATORIO_LISTASPESA_MAINFRAME_H
 #define LABORATORIO_LISTASPESA_MAINFRAME_H
 #include <wx/wx.h>
+#include <wx/spinctrl.h>
 
 class MainFrame : public wxFrame {
 public:
@@ -63,6 +64,22 @@ private:
     wxButton* clearShopsButton;
     wxListBox* shopList;
     wxButton* shopbackButton;
+
+    //items di una lista
+    void CreateItemsControls();
+    void SetupItemSizers();
+
+    wxPanel* ItemPanel;
+    wxButton* AddItemButton;
+    wxStaticText* ItemTitle;
+    wxTextCtrl* ItemField;
+    wxSpinCtrl* ItemSpin;
+    wxListBox* ItemList;
+    wxListBox* ItemQuantityList;
+    wxButton* clearItemsButton;
+    wxButton* ItemBackButton;
+    wxButton* ShareButton;
+
 };
 
 #endif //LABORATORIO_LISTASPESA_MAINFRAME_H

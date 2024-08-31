@@ -11,8 +11,10 @@
 MainFrame::MainFrame(const wxString &title) : wxFrame(nullptr, wxID_ANY, title) {
     CreateControls();
     CreateShopControls();
+    CreateItemsControls();
     Setupsizers();
     SetupShopSizers();
+    SetupItemSizers();
     BindEventHandlers();
     BindShopEvents();
     Addfromsaved();
@@ -56,12 +58,12 @@ void MainFrame::Setupsizers() {
     wxGridSizer* outSizer = new wxGridSizer(1);
     outSizer->Add(userSizer,wxSizerFlags().Border(wxALL,25).Expand());
 
-    //assegno userSizer come sizer principale del mio pannello di utenti
     UserPanel->SetSizer(userSizer);
 
     // Add panels to the main sizer
     mainSizer->Add(UserPanel, 1, wxEXPAND | wxALL, 5);
     mainSizer->Add(listPanel, 1, wxEXPAND | wxALL, 5);
+    mainSizer->Add(ItemPanel, 1, wxEXPAND | wxALL, 5);
 
     mainPanel->SetSizer(mainSizer);
     mainSizer->SetSizeHints(this);
@@ -277,7 +279,6 @@ void MainFrame::SetupShopSizers() {
     wxGridSizer* outSizer = new wxGridSizer(1);
     outSizer->Add(shopSizer,wxSizerFlags().Border(wxALL,25).Expand());
 
-    //assegno userSizer come sizer principale del mio pannello di utenti
     listPanel->SetSizer(shopSizer);
 }
 
@@ -314,8 +315,8 @@ void MainFrame::shopListKeyDown(wxKeyEvent &evt) {
 
 void MainFrame::Goback(wxCommandEvent &evt) {
     updatelist();
-    UserPanel->Show();  // Hide the shop panel
-    listPanel->Hide();  // Show the list panel
+    UserPanel->Show();
+    listPanel->Hide();
     UserPanel->GetParent()->Layout();
 }
 
@@ -368,4 +369,58 @@ std::vector<wxString> MainFrame::loadShopstoUser(const std::string &filename) {
     return lists;
 }
 
+
+
+
+
+void MainFrame::CreateItemsControls() {
+    wxFont headlineFont(wxFontInfo(wxSize(0,36)).Bold());
+
+    ItemPanel = new wxPanel(mainPanel);
+    AddItemButton = new wxButton(ItemPanel,wxID_ANY, "Add");
+    ItemTitle = new wxStaticText(ItemPanel,wxID_ANY,"Lista della spesa");
+    ItemTitle->SetFont(headlineFont);
+    ItemField = new wxTextCtrl(ItemPanel,wxID_ANY, "",wxDefaultPosition,wxDefaultSize,wxTE_PROCESS_ENTER);
+    clearItemsButton = new wxButton(ItemPanel,wxID_ANY,"Clear",wxDefaultPosition,wxDefaultSize);
+    ItemList = new wxListBox(ItemPanel,wxID_ANY);
+    ItemQuantityList = new wxListBox(ItemPanel,wxID_ANY);
+    ItemBackButton = new wxButton(ItemPanel,wxID_ANY,"Go back");
+    ItemSpin = new wxSpinCtrl(ItemPanel,wxID_ANY," ",wxDefaultPosition,wxDefaultSize,wxSP_WRAP,0,100,0);
+    ShareButton = new wxButton(ItemPanel,wxID_ANY,"Share");
+    ItemPanel->Hide();
+}
+
+void MainFrame::SetupItemSizers() {
+    wxBoxSizer* ItemSizer = new wxBoxSizer(wxVERTICAL);
+    ItemSizer->Add(ItemTitle,wxSizerFlags().CenterHorizontal());
+    ItemSizer->AddSpacer(25);
+
+    wxBoxSizer* ItemsubSizer = new wxBoxSizer(wxHORIZONTAL);
+    ItemsubSizer->Add(ItemField,wxSizerFlags().Proportion(1));
+    ItemsubSizer->AddSpacer(5);
+    ItemsubSizer->Add(ItemSpin);
+    ItemsubSizer->AddSpacer(5);
+    ItemsubSizer->Add(AddItemButton);
+    ItemSizer->Add(ItemsubSizer,wxSizerFlags().Expand());
+    ItemSizer->AddSpacer(5);
+
+    wxBoxSizer* ItemsubSizer1 = new wxBoxSizer(wxHORIZONTAL);
+    ItemsubSizer1->Add(ItemList, wxSizerFlags().Proportion(10).Expand());
+    ItemsubSizer1->AddSpacer(5);
+    ItemsubSizer1->Add(ItemQuantityList, wxSizerFlags().Proportion(1).Expand());
+    ItemSizer->Add(ItemsubSizer1, wxSizerFlags().Expand().Proportion(1));
+
+    wxBoxSizer* ItemsubSizer2 = new wxBoxSizer(wxHORIZONTAL);
+    ItemsubSizer2->Add(clearItemsButton);
+    ItemsubSizer2->AddSpacer(10);
+    ItemsubSizer2->Add(ItemBackButton);
+    ItemsubSizer2->AddSpacer(10);
+    ItemsubSizer2->Add(ShareButton);
+    ItemSizer->Add(ItemsubSizer2);
+
+    wxGridSizer* outSizer = new wxGridSizer(1);
+    outSizer->Add(ItemSizer,wxSizerFlags().Border(wxALL,25).Expand());
+
+    ItemPanel->SetSizer(ItemSizer);
+}
 
