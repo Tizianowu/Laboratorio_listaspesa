@@ -195,6 +195,11 @@ void MainFrame::DeleteSelectedUser() {
     if (selectedIndex == wxNOT_FOUND)
         return;
     {
+        wxString selectedUser = userList->GetString(selectedIndex);
+        std::string filename = std::string(selectedUser.mb_str()) + "_shops.txt";
+        if (std::filesystem::exists(filename)) {
+            std::filesystem::remove(filename);
+        }
         userList->Delete(selectedIndex);
     }
 }
@@ -300,6 +305,7 @@ void MainFrame::SetupShopSizers() {
 
 void MainFrame::BindShopEvents() {
     shopList->Bind(wxEVT_KEY_DOWN,&MainFrame::shopListKeyDown,this);
+    shopList->Bind(wxEVT_LEFT_DCLICK, &MainFrame::ShowItemPanel, this);
     shopAddButton->Bind(wxEVT_BUTTON,&MainFrame::AddShopButtonClicked,this);
     shopField->Bind(wxEVT_TEXT_ENTER,&MainFrame::shopInputEnter,this);
     clearShopsButton->Bind(wxEVT_BUTTON,&MainFrame::shopClearButton,this);
@@ -318,6 +324,13 @@ void MainFrame::shopClearButton(wxCommandEvent &evt) {
     wxMessageDialog dialog(this,"are you sure you want to clear all?","clear",wxYES_NO | wxCANCEL);
     int result = dialog.ShowModal();
     if(result == wxID_YES){
+        for(int i=0;i<shopList->GetCount();i++){
+            wxString tmpShopName = shopList->GetString(i);
+            std::string filename =std::string(currentUser.mb_str()) + "_" + std::string(tmpShopName.mb_str()) + "item.txt";
+            if(std::filesystem::exists(filename)) {
+                std::filesystem::remove(filename);
+            }
+        }
         shopList->Clear();
     }
 }
@@ -327,6 +340,36 @@ void MainFrame::shopListKeyDown(wxKeyEvent &evt) {
     if (keyCode == WXK_DELETE || keyCode == WXK_BACK) {
         DeleteselectedList();
     }
+}
+
+void MainFrame::ShowItemPanel(wxMouseEvent &evt) {
+    int selectedShopIndex = shopList->GetSelection();
+    if (selectedShopIndex == wxNOT_FOUND) {
+        wxMessageBox("No Shop selected!");
+        return;
+    }
+
+    currentShop = shopList->GetString(shopList->GetSelection());
+    wxString selectedList = currentShop;
+
+    // Costruisci il nome del file per la spesa selezionato
+    std::string filename = std::string(currentUser.mb_str()) + "_" + std::string(currentShop.mb_str()) + "item.txt";
+
+    // Carica le liste di spesa dell'utente
+    std::vector<Item> Items = loadItemstoShop(filename);
+
+    ItemList->Clear();
+    ItemQuantityList->Clear();
+    for (const Item& item : Items) {
+        ItemList->Insert(item.name, ItemList->GetCount());
+        wxString updatedQuantityStr = wxString::Format(wxT("%d"), item.quantity);
+        ItemQuantityList->Insert(updatedQuantityStr, ItemQuantityList->GetCount());  // Insert the quantity string
+    }
+
+    listPanel->Hide();  // Hide the shop panel
+    ItemPanel->Show();  // Show the list panel
+    ItemPanel->GetParent()->Layout();  // Recalculate layout for the parent panel
+
 }
 
 void MainFrame::Goback(wxCommandEvent &evt) {
@@ -351,6 +394,11 @@ void MainFrame::DeleteselectedList() {
     int selectedIndex = shopList->GetSelection();
     if(selectedIndex == wxNOT_FOUND)
         return;
+    wxString selectedShop = shopList->GetString(selectedIndex);
+    std::string filename = std::string(currentUser.mb_str()) + "_" + std::string(selectedShop.mb_str()) + "item.txt";
+    if(std::filesystem::exists(filename)) {
+        std::filesystem::remove(filename);
+    }
     shopList->Delete(selectedIndex);
 }
 
@@ -445,6 +493,7 @@ void MainFrame::BindItemEvents() {
     ItemField->Bind(wxEVT_TEXT_ENTER, &MainFrame::ItemListKeyDown, this);
     clearItemsButton->Bind(wxEVT_BUTTON, &MainFrame::ItemClearButton, this);
     ItemList->Bind(wxEVT_KEY_DOWN, &MainFrame::ItemKeyDown, this);
+    ItemBackButton->Bind(wxEVT_BUTTON,&MainFrame::ItemGoback,this);
 }
 
 
@@ -478,6 +527,13 @@ void MainFrame::ItemClearButton(wxCommandEvent &evt) {
             std::filesystem::remove(filename);
         }
     }
+}
+
+void MainFrame::ItemGoback(wxCommandEvent &evt) {
+    updateShop();
+    ItemPanel->Hide();
+    listPanel->Show();
+    ItemPanel->GetParent()->Layout();
 }
 
 
@@ -535,6 +591,27 @@ void MainFrame::DeleteSelectedItem() {
         ItemQuantityList->Delete(selectedIndex);
     }
 }
+
+void MainFrame::updateShop() {
+    if (!currentShop.IsEmpty()) {
+        if (ItemList->GetCount() != ItemQuantityList->GetCount()) {
+            wxLogError("ItemList and ItemQuantityList do not have the same number of elements.");
+            return;
+        }
+
+        std::vector<Item> shopItems;
+        for (int i = 0; i < ItemList->GetCount(); i++) {
+            wxString itemName = ItemList->GetString(i);
+            int itemQuantity = wxAtoi(ItemQuantityList->GetString(i)); // Converte wxString a int
+            shopItems.push_back(Item(itemName, itemQuantity));
+        }
+
+        // Salva gli items in un file associato all'utente
+        std::string itemsFilename = std::string(currentUser.mb_str()) + "_" + std::string(currentShop.mb_str()) + "item.txt";
+        saveItemstoShops(shopItems, itemsFilename);
+    }
+}
+
 
 
 std::vector<Item> MainFrame::loadItemstoShop(const std::string &filename) {

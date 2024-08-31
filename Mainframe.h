@@ -49,6 +49,7 @@ private:
     void shopInputEnter(wxCommandEvent& evt);
     void shopClearButton(wxCommandEvent& evt);
     void shopListKeyDown(wxKeyEvent &evt);
+    void ShowItemPanel(wxMouseEvent& evt);
     void Goback(wxCommandEvent& evt);
 
     void AddShop();
@@ -76,9 +77,11 @@ private:
     void ItemListKeyDown(wxCommandEvent& evt);
     void ItemClearButton(wxCommandEvent& evt);
     void ItemKeyDown(wxKeyEvent& evt);
+    void ItemGoback(wxCommandEvent& evt);
 
     void AddItem();
     void DeleteSelectedItem();
+    void updateShop();
 
     std::vector<Item> loadItemstoShop(const std::string& filename);
     void saveItemstoShops(const std::vector<Item> &items, const std::string &filename);
