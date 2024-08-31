@@ -6,6 +6,8 @@
 #define LABORATORIO_LISTASPESA_MAINFRAME_H
 #include <wx/wx.h>
 #include <wx/spinctrl.h>
+#include "Item.h"
+
 
 class MainFrame : public wxFrame {
 public:
@@ -68,7 +70,20 @@ private:
     //items di una lista
     void CreateItemsControls();
     void SetupItemSizers();
+    void BindItemEvents();
 
+    void AddItemButtonClicked(wxCommandEvent& evt);
+    void ItemListKeyDown(wxCommandEvent& evt);
+    void ItemClearButton(wxCommandEvent& evt);
+    void ItemKeyDown(wxKeyEvent& evt);
+
+    void AddItem();
+    void DeleteSelectedItem();
+
+    std::vector<Item> loadItemstoShop(const std::string& filename);
+    void saveItemstoShops(const std::vector<Item> &items, const std::string &filename);
+
+    wxString currentShop;
     wxPanel* ItemPanel;
     wxButton* AddItemButton;
     wxStaticText* ItemTitle;
@@ -79,7 +94,7 @@ private:
     wxButton* clearItemsButton;
     wxButton* ItemBackButton;
     wxButton* ShareButton;
-
 };
+
 
 #endif //LABORATORIO_LISTASPESA_MAINFRAME_H

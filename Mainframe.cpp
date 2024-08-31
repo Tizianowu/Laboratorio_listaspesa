@@ -17,6 +17,7 @@ MainFrame::MainFrame(const wxString &title) : wxFrame(nullptr, wxID_ANY, title) 
     SetupItemSizers();
     BindEventHandlers();
     BindShopEvents();
+    BindItemEvents();
     Addfromsaved();
 }
 
@@ -124,6 +125,8 @@ void MainFrame::OnWindowClosed(wxCloseEvent &evt) {
         wxString s = userList->GetString(i);
         tasks.push_back(userList->GetString(i));
     }
+    saveUsersToFile(tasks,"users.txt");
+
     if (!currentUser.IsEmpty()) {
 
         std::vector<wxString> shops;
@@ -133,8 +136,21 @@ void MainFrame::OnWindowClosed(wxCloseEvent &evt) {
         std::string filename = std::string(currentUser.mb_str()) + "_shops.txt";
         saveShopsToUser(shops, filename);
     }
+    if (!currentShop.IsEmpty()) {
+        if(ItemList->GetCount()>0 && ItemQuantityList->GetCount() > 0) {
 
-    saveUsersToFile(tasks, "users.txt");
+            std::vector<Item> shopItems;
+            for (int i = 0; i < ItemList->GetCount(); i++) {
+                wxString itemName = ItemList->GetString(i);
+                int itemQuantity = wxAtoi(ItemQuantityList->GetString(i)); // Converte wxString a int
+                shopItems.push_back(Item(itemName, itemQuantity));
+            }
+
+            // Salva gli items in un file associato all'utente
+            std::string itemsFilename =std::string(currentUser.mb_str()) + "_" + std::string(currentShop.mb_str()) + "item.txt";
+            saveItemstoShops(shopItems, itemsFilename);
+        }
+    }
     evt.Skip();
 }
 
@@ -424,3 +440,133 @@ void MainFrame::SetupItemSizers() {
     ItemPanel->SetSizer(ItemSizer);
 }
 
+void MainFrame::BindItemEvents() {
+    AddItemButton->Bind(wxEVT_BUTTON, &MainFrame::AddItemButtonClicked, this);
+    ItemField->Bind(wxEVT_TEXT_ENTER, &MainFrame::ItemListKeyDown, this);
+    clearItemsButton->Bind(wxEVT_BUTTON, &MainFrame::ItemClearButton, this);
+    ItemList->Bind(wxEVT_KEY_DOWN, &MainFrame::ItemKeyDown, this);
+}
+
+
+
+void MainFrame::AddItemButtonClicked(wxCommandEvent& evt) {
+    AddItem();
+}
+
+void MainFrame::ItemListKeyDown(wxCommandEvent& evt) {
+    AddItem();
+}
+
+void MainFrame::ItemKeyDown(wxKeyEvent &evt) {
+    int keyCode = evt.GetKeyCode();
+
+    if (keyCode == WXK_DELETE || keyCode == WXK_BACK) {
+        DeleteSelectedItem();
+    }
+}
+
+void MainFrame::ItemClearButton(wxCommandEvent &evt) {
+    if(ItemList->IsEmpty())
+        return;
+    wxMessageDialog dialog(this,"are you sure you want to clear all?","clear",wxYES_NO | wxCANCEL);
+    int result = dialog.ShowModal();
+    if(result == wxID_YES){
+        ItemList->Clear();
+        ItemQuantityList->Clear();
+        std::string filename = std::string(currentUser.mb_str()) + "_" + std::string(currentShop.mb_str()) + "item.txt";
+        if(std::filesystem::exists(filename)) {
+            std::filesystem::remove(filename);
+        }
+    }
+}
+
+
+
+void MainFrame::AddItem() {
+    wxString description = ItemField->GetValue();
+    int number = ItemSpin->GetValue();
+
+    if (!description.IsEmpty() && number > 0) {
+        // Converti la descrizione dell'elemento in minuscolo
+        description.MakeLower();
+
+        // Controlla se l'elemento è già presente nella lista
+        int itemCount = ItemList->GetCount();
+        bool itemFound = false;
+
+        for (int i = 0; i < itemCount; ++i) {
+            // Ottieni e converti la descrizione esistente in minuscolo
+            wxString existingDescription = ItemList->GetString(i);
+            existingDescription.MakeLower();
+
+            if (existingDescription == description) {
+                // Se l'elemento è già presente, aggiorna solo la quantità
+                wxString existingQuantityStr = ItemQuantityList->GetString(i);
+                int existingQuantity = wxAtoi(existingQuantityStr);
+                existingQuantity += number;
+                wxString updatedQuantityStr = wxString::Format(wxT("%d"), existingQuantity);
+                ItemQuantityList->SetString(i, updatedQuantityStr);
+                itemFound = true;
+                break;
+            }
+        }
+
+        if (!itemFound) {
+            // Se l'elemento non è stato trovato, aggiungilo come nuovo elemento
+            ItemList->Insert(description, itemCount);
+            wxString numberStr = wxString::Format(wxT("%d"), number);
+            ItemQuantityList->Append(numberStr);
+        }
+
+        // Pulisce il campo di input e resetta il valore dello spinner
+        ItemField->Clear();
+        ItemSpin->SetValue(0);
+    }
+
+    ItemField->SetFocus();
+}
+
+void MainFrame::DeleteSelectedItem() {
+    int selectedIndex = ItemList->GetSelection();
+    if(selectedIndex == wxNOT_FOUND)
+        return;
+    else {
+        ItemList->Delete(selectedIndex);
+        ItemQuantityList->Delete(selectedIndex);
+    }
+}
+
+
+std::vector<Item> MainFrame::loadItemstoShop(const std::string &filename) {
+    if (!std::filesystem::exists(filename)) {
+        return std::vector<Item>();
+    }
+
+    std::vector<Item> items;
+    std::ifstream istream(filename);
+    int n;
+    istream >> n;  // Leggi la dimensione della lista
+
+    for (int i = 0; i < n; ++i) {
+        std::string name;
+        int quantity;
+        istream >> name >> quantity;  // Leggi il nome e la quantità
+
+        std::replace(name.begin(), name.end(), '_', ' ');  // Ripristina gli spazi nel nome
+        items.push_back({wxString(name), quantity});  // Aggiungi l'elemento alla lista
+    }
+
+    return items;
+}
+
+void MainFrame::saveItemstoShops(const std::vector<Item> &items, const std::string &filename) {
+    std::ofstream ostream(filename);
+    ostream << items.size();
+
+    for (const Item& item : items) {
+        std::string name = std::string(item.name.mb_str());  // Converti wxString in std::string
+        std::replace(name.begin(), name.end(), ' ', '_');  // Sostituisci gli spazi con underscore
+
+        ostream << '\n' << name << ' ' << item.quantity;
+    }
+}
