@@ -11,6 +11,7 @@ public:
     MainFrame(const wxString &title);
 private:
     void CreateControls();
+    void Setupsizers();
 
     wxPanel* mainPanel;
     wxPanel* UserPanel;
