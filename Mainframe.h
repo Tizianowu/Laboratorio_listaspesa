@@ -18,9 +18,14 @@ private:
     void UserInputEnter(wxCommandEvent&evt);
     void OnListKeyDown(wxKeyEvent &evt);   //serve per delete elemento selezionato
     void ClearButtonClicked(wxCommandEvent& evt);  //server per clear all
+    void OnWindowClosed(wxCloseEvent& evt);  // keep the panel when we close it
+
+    std::vector<wxString> loadUserstoFile(const std::string& filename);
+    void saveUsersToFile(const std::vector<wxString> &tasks, const std::string &filename);
 
     void AddUser();
     void DeleteSelectedUser();
+    void Addfromsaved();
 
     wxPanel* mainPanel;
     wxPanel* UserPanel;

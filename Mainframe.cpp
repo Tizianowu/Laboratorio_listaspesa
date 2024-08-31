@@ -12,6 +12,7 @@ MainFrame::MainFrame(const wxString &title) : wxFrame(nullptr, wxID_ANY, title) 
     CreateControls();
     Setupsizers();
     BindEventHandlers();
+    Addfromsaved();
 }
 
 void MainFrame::CreateControls() {
@@ -71,6 +72,7 @@ void MainFrame::BindEventHandlers() {
     inputField->Bind(wxEVT_TEXT_ENTER,&MainFrame::UserInputEnter,this);
     userList->Bind(wxEVT_KEY_DOWN,&MainFrame::OnListKeyDown,this);
     clearButton->Bind(wxEVT_BUTTON,&MainFrame::ClearButtonClicked,this);
+    this->Bind(wxEVT_CLOSE_WINDOW,&MainFrame::OnWindowClosed,this);
 }
 
 
@@ -98,10 +100,27 @@ void MainFrame::ClearButtonClicked(wxCommandEvent &evt) {
     wxMessageDialog dialog(this,"are you sure you want to clear all?","clear",wxYES_NO | wxCANCEL);
     int result = dialog.ShowModal();
     if(result == wxID_YES){
+        for (int i = 0; i < userList->GetCount(); i++) {
+            wxString tmpShopName = userList->GetString(i);
+            std::string filename = std::string(tmpShopName.mb_str()) + "_" + "shops.txt";
+            if (std::filesystem::exists(filename)) {
+                std::filesystem::remove(filename);
+            }
+        }
         userList->Clear();
     }
 }
 
+void MainFrame::OnWindowClosed(wxCloseEvent &evt) {
+    std::vector<wxString> tasks;
+    for (int i = 0; i < userList->GetCount(); i++) {
+        wxString s = userList->GetString(i);
+        tasks.push_back(userList->GetString(i));
+    }
+
+    saveUsersToFile(tasks, "users.txt");
+    evt.Skip();
+}
 
 
 void MainFrame::AddUser() {
@@ -120,4 +139,46 @@ void MainFrame::DeleteSelectedUser() {
     {
         userList->Delete(selectedIndex);
     }
+}
+
+void MainFrame::Addfromsaved() {
+    std::vector<wxString>tasks = loadUserstoFile("users.txt");
+    for (const wxString& task : tasks) {
+        int index = userList->GetCount();
+        userList->Insert(task, index);
+    }
+}
+
+
+
+void MainFrame::saveUsersToFile(const std::vector<wxString> &lists, const std::string &filename) {
+    std::ofstream ostream(filename);
+    ostream << lists.size();
+
+    for(const wxString& list : lists) {
+        wxString description = list;
+        std::replace(description.begin(), description.end(), ' ', '_');
+
+        ostream << '\n' << description;
+    }
+}
+
+
+
+std::vector<wxString> MainFrame::loadUserstoFile(const std::string &filename) {
+    if (!std::filesystem::exists(filename)){
+        return std::vector<wxString>();
+    }
+    std::vector<wxString> lists;
+    std::ifstream istream(filename);
+    int n;
+    istream>>n;
+    for (int i=0;i<n;i++){
+        std::string description;
+
+        istream>>description;
+        replace(description.begin(),description.end(),'_',' ');
+        lists.push_back(description);
+    }
+    return lists;
 }
