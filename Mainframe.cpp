@@ -38,7 +38,6 @@ void MainFrame::CreateControls() {
 void MainFrame::Setupsizers() {
     wxBoxSizer* mainSizer = new wxBoxSizer(wxVERTICAL);
 
-
     wxBoxSizer* userSizer = new wxBoxSizer(wxVERTICAL);
     userSizer->Add(headlineText,wxSizerFlags().CenterHorizontal());
     userSizer->AddSpacer(25);
@@ -72,11 +71,13 @@ void MainFrame::Setupsizers() {
 }
 
 void MainFrame::BindEventHandlers() {
+    userList->Bind(wxEVT_LEFT_DCLICK, &MainFrame::ShowListPanel, this);
     addButton->Bind(wxEVT_BUTTON,&MainFrame::AddUserButtonClicked,this);
     inputField->Bind(wxEVT_TEXT_ENTER,&MainFrame::UserInputEnter,this);
     userList->Bind(wxEVT_KEY_DOWN,&MainFrame::OnListKeyDown,this);
     clearButton->Bind(wxEVT_BUTTON,&MainFrame::ClearButtonClicked,this);
     this->Bind(wxEVT_CLOSE_WINDOW,&MainFrame::OnWindowClosed,this);
+
 }
 
 
@@ -121,9 +122,43 @@ void MainFrame::OnWindowClosed(wxCloseEvent &evt) {
         wxString s = userList->GetString(i);
         tasks.push_back(userList->GetString(i));
     }
+    if (!currentUser.IsEmpty()) {
+
+        std::vector<wxString> shops;
+        for (int i = 0; i < shopList->GetCount(); i++) {
+            shops.push_back(shopList->GetString(i));
+        }
+        std::string filename = std::string(currentUser.mb_str()) + "_shops.txt";
+        saveShopsToUser(shops, filename);
+    }
 
     saveUsersToFile(tasks, "users.txt");
     evt.Skip();
+}
+
+void MainFrame::ShowListPanel(wxMouseEvent &evt) {
+    int selectedUserIndex = userList->GetSelection();
+    if (selectedUserIndex == wxNOT_FOUND) {
+        wxMessageBox("No user selected!");
+        return;
+    }
+
+    wxString selectedUser = userList->GetString(selectedUserIndex);
+    currentUser = selectedUser;  // Salva l'utente corrente
+
+    // Costruisci il nome del file per l'utente selezionato
+    std::string filename = std::string(selectedUser.mb_str()) + "_shops.txt";
+
+    // Carica le liste di spesa dell'utente
+    std::vector<wxString> shopItems = loadShopstoUser(filename);
+
+    shopList->Clear();
+    for (const wxString& item : shopItems) {
+        shopList->Insert(item, shopList->GetCount());
+    }
+    UserPanel->Hide();  // Hide the shop panel
+    listPanel->Show();  // Show the list panel
+    UserPanel->GetParent()->Layout();  // Recalculate layout for the parent panel
 }
 
 
@@ -151,6 +186,17 @@ void MainFrame::Addfromsaved() {
     for (const wxString& task : tasks) {
         int index = userList->GetCount();
         userList->Insert(task, index);
+    }
+}
+
+void MainFrame::updatelist() {
+    if (!currentUser.IsEmpty()) {
+        std::vector<wxString> shopItems;
+        for (int i = 0; i < shopList->GetCount(); i++) {
+            shopItems.push_back(shopList->GetString(i));
+        }
+        std::string filename = std::string(currentUser.mb_str()) + "_shops.txt";
+        saveShopsToUser(shopItems, filename);
     }
 }
 
@@ -208,7 +254,6 @@ void MainFrame::CreateShopControls() {
 }
 
 void MainFrame::SetupShopSizers() {
-
     wxBoxSizer* shopSizer = new wxBoxSizer(wxVERTICAL);
     shopSizer->Add(shopTitle,wxSizerFlags().CenterHorizontal());
     shopSizer->AddSpacer(25);
@@ -241,6 +286,7 @@ void MainFrame::BindShopEvents() {
     shopAddButton->Bind(wxEVT_BUTTON,&MainFrame::AddShopButtonClicked,this);
     shopField->Bind(wxEVT_TEXT_ENTER,&MainFrame::shopInputEnter,this);
     clearShopsButton->Bind(wxEVT_BUTTON,&MainFrame::shopClearButton,this);
+    shopbackButton->Bind(wxEVT_BUTTON,&MainFrame::Goback,this);
 }
 
 void MainFrame::AddShopButtonClicked(wxCommandEvent &evt) {
@@ -264,6 +310,13 @@ void MainFrame::shopListKeyDown(wxKeyEvent &evt) {
     if (keyCode == WXK_DELETE || keyCode == WXK_BACK) {
         DeleteselectedList();
     }
+}
+
+void MainFrame::Goback(wxCommandEvent &evt) {
+    updatelist();
+    UserPanel->Show();  // Hide the shop panel
+    listPanel->Hide();  // Show the list panel
+    UserPanel->GetParent()->Layout();
 }
 
 

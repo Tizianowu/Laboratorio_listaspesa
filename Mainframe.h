@@ -18,6 +18,7 @@ private:
     void UserInputEnter(wxCommandEvent&evt);
     void OnListKeyDown(wxKeyEvent &evt);   //serve per delete elemento selezionato
     void ClearButtonClicked(wxCommandEvent& evt);  //server per clear all
+    void ShowListPanel(wxMouseEvent& evt);
     void OnWindowClosed(wxCloseEvent& evt);  // keep the panel when we close it
 
     std::vector<wxString> loadUserstoFile(const std::string& filename);
@@ -27,6 +28,7 @@ private:
     void DeleteSelectedUser();
     void Addfromsaved();
 
+    wxString currentUser;
     wxPanel* mainPanel;
     wxPanel* UserPanel;
     wxButton* addButton;
@@ -44,9 +46,11 @@ private:
     void shopInputEnter(wxCommandEvent& evt);
     void shopClearButton(wxCommandEvent& evt);
     void shopListKeyDown(wxKeyEvent &evt);
+    void Goback(wxCommandEvent& evt);
 
     void AddShop();
     void DeleteselectedList();
+    void updatelist();
 
     std::vector<wxString> loadShopstoUser(const std::string& filename);
     void saveShopsToUser(const std::vector<wxString> &items, const std::string &filename);
