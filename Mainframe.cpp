@@ -6,6 +6,7 @@
 MainFrame::MainFrame(const wxString &title) : wxFrame(nullptr, wxID_ANY, title) {
     CreateControls();
     Setupsizers();
+    BindEventHandlers();
 }
 
 void MainFrame::CreateControls() {
@@ -58,4 +59,30 @@ void MainFrame::Setupsizers() {
 
     // Update the layout of the frame
     mainSizer->Layout();
+}
+
+void MainFrame::BindEventHandlers() {
+    addButton->Bind(wxEVT_BUTTON,&MainFrame::AddUserButtonClicked,this);
+    inputField->Bind(wxEVT_TEXT_ENTER,&MainFrame::UserInputEnter,this);
+}
+
+
+
+void MainFrame::AddUserButtonClicked(wxCommandEvent &evt) {
+    AddUser();
+}
+
+void MainFrame::UserInputEnter(wxCommandEvent &evt) {
+    AddUser();
+}
+
+
+
+void MainFrame::AddUser() {
+    wxString description = inputField->GetValue();
+    if(!description.IsEmpty()){
+        userList->Insert(description,userList->GetCount());
+        inputField->Clear();
+    }
+    inputField->SetFocus();
 }

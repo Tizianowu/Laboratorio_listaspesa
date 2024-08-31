@@ -12,6 +12,12 @@ public:
 private:
     void CreateControls();
     void Setupsizers();
+    void BindEventHandlers();
+
+    void AddUserButtonClicked(wxCommandEvent& evt);
+    void UserInputEnter(wxCommandEvent&evt);
+
+    void AddUser();
 
     wxPanel* mainPanel;
     wxPanel* UserPanel;
