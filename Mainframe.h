@@ -34,6 +34,18 @@ private:
     wxTextCtrl* inputField;
     wxButton* clearButton;
     wxListBox* userList;
+
+    //liste della spesa
+    void CreateShopControls();
+    void SetupShopSizers();
+
+    wxPanel* listPanel;
+    wxButton* shopAddButton;
+    wxStaticText* shopTitle;
+    wxTextCtrl* shopField;
+    wxButton* clearShopsButton;
+    wxListBox* shopList;
+    wxButton* shopbackButton;
 };
 
 #endif //LABORATORIO_LISTASPESA_MAINFRAME_H

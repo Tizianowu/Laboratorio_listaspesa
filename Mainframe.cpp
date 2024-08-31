@@ -10,7 +10,9 @@
 #include "Mainframe.h"
 MainFrame::MainFrame(const wxString &title) : wxFrame(nullptr, wxID_ANY, title) {
     CreateControls();
+    CreateShopControls();
     Setupsizers();
+    SetupShopSizers();
     BindEventHandlers();
     Addfromsaved();
 }
@@ -59,6 +61,7 @@ void MainFrame::Setupsizers() {
 
     // Add panels to the main sizer
     mainSizer->Add(UserPanel, 1, wxEXPAND | wxALL, 5);
+    mainSizer->Add(listPanel, 1, wxEXPAND | wxALL, 5);
 
     mainPanel->SetSizer(mainSizer);
     mainSizer->SetSizeHints(this);
@@ -123,6 +126,7 @@ void MainFrame::OnWindowClosed(wxCloseEvent &evt) {
 }
 
 
+
 void MainFrame::AddUser() {
     wxString description = inputField->GetValue();
     if(!description.IsEmpty()){
@@ -182,3 +186,56 @@ std::vector<wxString> MainFrame::loadUserstoFile(const std::string &filename) {
     }
     return lists;
 }
+
+
+
+
+
+
+void MainFrame::CreateShopControls() {
+    wxFont headlineFont(wxFontInfo(wxSize(0,36)).Bold());
+
+    listPanel = new wxPanel(mainPanel);
+    shopAddButton = new wxButton(listPanel, wxID_ANY, "Add");
+    shopTitle = new wxStaticText(listPanel, wxID_ANY, "LISTE DELLA SPESA");
+    shopTitle->SetFont(headlineFont);
+    shopField = new wxTextCtrl(listPanel, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER);
+    clearShopsButton = new wxButton(listPanel, wxID_ANY, "Clear", wxDefaultPosition, wxDefaultSize);
+    shopList = new wxListBox(listPanel, wxID_ANY);
+    shopbackButton = new wxButton(listPanel, wxID_ANY, "Go Back", wxDefaultPosition, wxDefaultSize);
+    listPanel->Hide(); // Initially hide the list panel
+}
+
+void MainFrame::SetupShopSizers() {
+
+    wxBoxSizer* shopSizer = new wxBoxSizer(wxVERTICAL);
+    shopSizer->Add(shopTitle,wxSizerFlags().CenterHorizontal());
+    shopSizer->AddSpacer(25);
+
+    wxBoxSizer* shopsubSizer = new wxBoxSizer(wxHORIZONTAL);
+    shopsubSizer->Add(shopField,wxSizerFlags().Proportion(1));
+    shopsubSizer->AddSpacer(5);
+    shopsubSizer->Add(shopAddButton);
+
+    shopSizer->Add(shopsubSizer,wxSizerFlags().Expand());
+    shopsubSizer->AddSpacer(5);
+    shopSizer->Add(shopList,wxSizerFlags().Expand().Proportion(1));
+    shopsubSizer->AddSpacer(5);
+    wxBoxSizer* shopsubSizer2 = new wxBoxSizer(wxHORIZONTAL);
+    shopsubSizer2->Add(clearShopsButton);
+    shopsubSizer2->AddSpacer(10);
+    shopsubSizer2->Add(shopbackButton);
+    shopSizer->Add(shopsubSizer2);
+
+
+    wxGridSizer* outSizer = new wxGridSizer(1);
+    outSizer->Add(shopSizer,wxSizerFlags().Border(wxALL,25).Expand());
+
+    //assegno userSizer come sizer principale del mio pannello di utenti
+    listPanel->SetSizer(shopSizer);
+}
+
+
+
+
+
