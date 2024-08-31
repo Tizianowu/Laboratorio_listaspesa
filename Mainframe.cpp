@@ -1,7 +1,12 @@
 //
 // Created by Tiziano Wu on 31/08/24.
 //
-
+#include <string>
+#include <vector>
+#include <filesystem>
+#include <fstream>
+#include <algorithm>
+#include <wx/string.h>
 #include "Mainframe.h"
 MainFrame::MainFrame(const wxString &title) : wxFrame(nullptr, wxID_ANY, title) {
     CreateControls();
@@ -64,6 +69,8 @@ void MainFrame::Setupsizers() {
 void MainFrame::BindEventHandlers() {
     addButton->Bind(wxEVT_BUTTON,&MainFrame::AddUserButtonClicked,this);
     inputField->Bind(wxEVT_TEXT_ENTER,&MainFrame::UserInputEnter,this);
+    userList->Bind(wxEVT_KEY_DOWN,&MainFrame::OnListKeyDown,this);
+    clearButton->Bind(wxEVT_BUTTON,&MainFrame::ClearButtonClicked,this);
 }
 
 
@@ -76,6 +83,25 @@ void MainFrame::UserInputEnter(wxCommandEvent &evt) {
     AddUser();
 }
 
+void MainFrame::OnListKeyDown(wxKeyEvent &evt) {
+    int keyCode = evt.GetKeyCode();
+    int selectedIndex = userList->GetSelection();
+
+    if ((keyCode == WXK_DELETE || keyCode == WXK_BACK) && selectedIndex != wxNOT_FOUND) {
+        DeleteSelectedUser();
+    }
+}
+
+void MainFrame::ClearButtonClicked(wxCommandEvent &evt) {
+    if(userList->IsEmpty())
+        return;
+    wxMessageDialog dialog(this,"are you sure you want to clear all?","clear",wxYES_NO | wxCANCEL);
+    int result = dialog.ShowModal();
+    if(result == wxID_YES){
+        userList->Clear();
+    }
+}
+
 
 
 void MainFrame::AddUser() {
@@ -85,4 +111,13 @@ void MainFrame::AddUser() {
         inputField->Clear();
     }
     inputField->SetFocus();
+}
+
+void MainFrame::DeleteSelectedUser() {
+    int selectedIndex = userList->GetSelection();
+    if (selectedIndex == wxNOT_FOUND)
+        return;
+    {
+        userList->Delete(selectedIndex);
+    }
 }

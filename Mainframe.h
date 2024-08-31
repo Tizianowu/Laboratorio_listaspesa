@@ -16,8 +16,11 @@ private:
 
     void AddUserButtonClicked(wxCommandEvent& evt);
     void UserInputEnter(wxCommandEvent&evt);
+    void OnListKeyDown(wxKeyEvent &evt);   //serve per delete elemento selezionato
+    void ClearButtonClicked(wxCommandEvent& evt);  //server per clear all
 
     void AddUser();
+    void DeleteSelectedUser();
 
     wxPanel* mainPanel;
     wxPanel* UserPanel;
