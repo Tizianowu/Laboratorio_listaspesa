@@ -9,6 +9,16 @@
 class MainFrame : public wxFrame {
 public:
     MainFrame(const wxString &title);
+private:
+    void CreateControls();
+
+    wxPanel* mainPanel;
+    wxPanel* UserPanel;
+    wxButton* addButton;
+    wxStaticText* headlineText;
+    wxTextCtrl* inputField;
+    wxButton* clearButton;
+    wxListBox* userList;
 };
 
 #endif //LABORATORIO_LISTASPESA_MAINFRAME_H
