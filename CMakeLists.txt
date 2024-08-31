@@ -13,7 +13,11 @@ endif()
 find_package(wxWidgets COMPONENTS core base REQUIRED)
 include(${wxWidgets_USE_FILE})
 
-add_executable(${PROJECT_NAME} ${SRC_LIST})
+add_executable(${PROJECT_NAME} ${SRC_LIST}
+        App.cpp
+        App.h
+        Mainframe.cpp
+        Mainframe.h)
 
 # Impostazioni specifiche di compilazione per macOS
 if(APPLE)

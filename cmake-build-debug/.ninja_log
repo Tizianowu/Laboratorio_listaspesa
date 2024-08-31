@@ -1,3 +1,9 @@
 # ninja log v6
 1	355	1725095628162097965	CMakeFiles/Laboratorio_listaspesa.dir/main.cpp.o	6625f84cc591af2
 357	543	1725095628518176557	Laboratorio_listaspesa	f063897b56ac752b
+4	375	1725096017431631335	CMakeFiles/Laboratorio_listaspesa.dir/main.cpp.o	6625f84cc591af2
+4	774	1725096017431480461	CMakeFiles/Laboratorio_listaspesa.dir/Mainframe.cpp.o	36c80c5c890b0343
+4	814	1725096017430985336	CMakeFiles/Laboratorio_listaspesa.dir/App.cpp.o	ed1a7077963733a9
+5	865	1725096056090775452	CMakeFiles/Laboratorio_listaspesa.dir/Mainframe.cpp.o	36c80c5c890b0343
+5	318	1725096171627111294	CMakeFiles/Laboratorio_listaspesa.dir/main.cpp.o	6625f84cc591af2
+318	465	1725096171939732307	Laboratorio_listaspesa	8364e58cfa389780

@@ -49,6 +49,22 @@ cmake_ninja_workdir = /Users/tizianowu/Laboratorio_listaspesa/cmake-build-debug/
 
 build cmake_object_order_depends_target_Laboratorio_listaspesa: phony || CMakeFiles/Laboratorio_listaspesa.dir
 
+build CMakeFiles/Laboratorio_listaspesa.dir/App.cpp.o: CXX_COMPILER__Laboratorio_listaspesa_unscanned_Debug /Users/tizianowu/Laboratorio_listaspesa/App.cpp || cmake_object_order_depends_target_Laboratorio_listaspesa
+  DEFINES = -DWXUSINGDLL -D_FILE_OFFSET_BITS=64 -D__WXMAC__ -D__WXOSX_COCOA__ -D__WXOSX__
+  DEP_FILE = CMakeFiles/Laboratorio_listaspesa.dir/App.cpp.o.d
+  FLAGS = -g -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -fcolor-diagnostics
+  INCLUDES = -isystem /opt/homebrew/lib/wx/include/osx_cocoa-unicode-3.2 -isystem /opt/homebrew/include/wx-3.2
+  OBJECT_DIR = CMakeFiles/Laboratorio_listaspesa.dir
+  OBJECT_FILE_DIR = CMakeFiles/Laboratorio_listaspesa.dir
+
+build CMakeFiles/Laboratorio_listaspesa.dir/Mainframe.cpp.o: CXX_COMPILER__Laboratorio_listaspesa_unscanned_Debug /Users/tizianowu/Laboratorio_listaspesa/Mainframe.cpp || cmake_object_order_depends_target_Laboratorio_listaspesa
+  DEFINES = -DWXUSINGDLL -D_FILE_OFFSET_BITS=64 -D__WXMAC__ -D__WXOSX_COCOA__ -D__WXOSX__
+  DEP_FILE = CMakeFiles/Laboratorio_listaspesa.dir/Mainframe.cpp.o.d
+  FLAGS = -g -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -fcolor-diagnostics
+  INCLUDES = -isystem /opt/homebrew/lib/wx/include/osx_cocoa-unicode-3.2 -isystem /opt/homebrew/include/wx-3.2
+  OBJECT_DIR = CMakeFiles/Laboratorio_listaspesa.dir
+  OBJECT_FILE_DIR = CMakeFiles/Laboratorio_listaspesa.dir
+
 build CMakeFiles/Laboratorio_listaspesa.dir/main.cpp.o: CXX_COMPILER__Laboratorio_listaspesa_unscanned_Debug /Users/tizianowu/Laboratorio_listaspesa/main.cpp || cmake_object_order_depends_target_Laboratorio_listaspesa
   DEFINES = -DWXUSINGDLL -D_FILE_OFFSET_BITS=64 -D__WXMAC__ -D__WXOSX_COCOA__ -D__WXOSX__
   DEP_FILE = CMakeFiles/Laboratorio_listaspesa.dir/main.cpp.o.d
@@ -65,7 +81,7 @@ build CMakeFiles/Laboratorio_listaspesa.dir/main.cpp.o: CXX_COMPILER__Laboratori
 #############################################
 # Link the executable Laboratorio_listaspesa
 
-build Laboratorio_listaspesa: CXX_EXECUTABLE_LINKER__Laboratorio_listaspesa_Debug CMakeFiles/Laboratorio_listaspesa.dir/main.cpp.o
+build Laboratorio_listaspesa: CXX_EXECUTABLE_LINKER__Laboratorio_listaspesa_Debug CMakeFiles/Laboratorio_listaspesa.dir/App.cpp.o CMakeFiles/Laboratorio_listaspesa.dir/Mainframe.cpp.o CMakeFiles/Laboratorio_listaspesa.dir/main.cpp.o
   FLAGS = -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk
   LINK_LIBRARIES = -Wl,-rpath,/opt/homebrew/lib  -L/opt/homebrew/lib  -framework IOKit  -framework Carbon  -framework Cocoa  -framework QuartzCore  -framework AudioToolbox  -framework System  -framework OpenGL  -lwx_osx_cocoau_core-3.2  -lwx_baseu-3.2
   LINK_PATH = -L/opt/homebrew/lib
