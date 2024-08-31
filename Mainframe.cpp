@@ -14,6 +14,7 @@ MainFrame::MainFrame(const wxString &title) : wxFrame(nullptr, wxID_ANY, title) 
     Setupsizers();
     SetupShopSizers();
     BindEventHandlers();
+    BindShopEvents();
     Addfromsaved();
 }
 
@@ -235,7 +236,83 @@ void MainFrame::SetupShopSizers() {
     listPanel->SetSizer(shopSizer);
 }
 
+void MainFrame::BindShopEvents() {
+    shopList->Bind(wxEVT_KEY_DOWN,&MainFrame::shopListKeyDown,this);
+    shopAddButton->Bind(wxEVT_BUTTON,&MainFrame::AddShopButtonClicked,this);
+    shopField->Bind(wxEVT_TEXT_ENTER,&MainFrame::shopInputEnter,this);
+    clearShopsButton->Bind(wxEVT_BUTTON,&MainFrame::shopClearButton,this);
+}
+
+void MainFrame::AddShopButtonClicked(wxCommandEvent &evt) {
+    AddShop();
+}
+void MainFrame::shopInputEnter(wxCommandEvent &evt) {
+    AddShop();
+}
+void MainFrame::shopClearButton(wxCommandEvent &evt) {
+    if(shopList->IsEmpty())
+        return;
+    wxMessageDialog dialog(this,"are you sure you want to clear all?","clear",wxYES_NO | wxCANCEL);
+    int result = dialog.ShowModal();
+    if(result == wxID_YES){
+        shopList->Clear();
+    }
+}
+void MainFrame::shopListKeyDown(wxKeyEvent &evt) {
+    int keyCode = evt.GetKeyCode();
+
+    if (keyCode == WXK_DELETE || keyCode == WXK_BACK) {
+        DeleteselectedList();
+    }
+}
 
 
+
+void MainFrame::AddShop() {
+    wxString description = shopField->GetValue();
+    if(!description.IsEmpty()){
+        shopList->Insert(description,shopList->GetCount());
+        shopField->Clear();
+    }
+    shopField->SetFocus();
+}
+
+void MainFrame::DeleteselectedList() {
+    int selectedIndex = shopList->GetSelection();
+    if(selectedIndex == wxNOT_FOUND)
+        return;
+    shopList->Delete(selectedIndex);
+}
+
+
+
+void MainFrame::saveShopsToUser(const std::vector<wxString> &items, const std::string &filename) {
+    std::ofstream ostream(filename);
+    ostream << items.size();
+
+    for (const wxString& item : items) {
+        wxString description = item;
+        std::replace(description.begin(), description.end(), ' ', '_');
+        ostream << '\n' << description;
+    }
+}
+
+std::vector<wxString> MainFrame::loadShopstoUser(const std::string &filename) {
+    if (!std::filesystem::exists(filename)){
+        return std::vector<wxString>();
+    }
+    std::vector<wxString> lists;
+    std::ifstream istream(filename);
+    int n;
+    istream>>n;
+    for (int i=0;i<n;i++){
+        std::string description;
+
+        istream>>description;
+        replace(description.begin(),description.end(),'_',' ');
+        lists.push_back(description);
+    }
+    return lists;
+}
 
 

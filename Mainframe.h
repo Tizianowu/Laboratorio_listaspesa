@@ -38,6 +38,19 @@ private:
     //liste della spesa
     void CreateShopControls();
     void SetupShopSizers();
+    void BindShopEvents();
+
+    void AddShopButtonClicked(wxCommandEvent& evt);
+    void shopInputEnter(wxCommandEvent& evt);
+    void shopClearButton(wxCommandEvent& evt);
+    void shopListKeyDown(wxKeyEvent &evt);
+
+    void AddShop();
+    void DeleteselectedList();
+
+    std::vector<wxString> loadShopstoUser(const std::string& filename);
+    void saveShopsToUser(const std::vector<wxString> &items, const std::string &filename);
+
 
     wxPanel* listPanel;
     wxButton* shopAddButton;
