@@ -181,20 +181,17 @@ void MainFrame::ShowListPanel(wxMouseEvent &evt) {
     }
 
     wxString selectedUser = userList->GetString(selectedUserIndex);
-    currentUser = selectedUser;  // Salva l'utente corrente
+    currentUser = selectedUser;
 
-    // Costruisci il nome del file per l'utente selezionato
     std::string filename = std::string(selectedUser.mb_str()) + "_shops.txt";
-
-    // Carica le liste di spesa dell'utente
     std::vector<wxString> shopItems = loadShopstoUser(filename);
 
     shopList->Clear();
     for (const wxString& item : shopItems) {
         shopList->Insert(item, shopList->GetCount());
     }
-    UserPanel->Hide();  // Hide the shop panel
-    listPanel->Show();  // Show the list panel
+    UserPanel->Hide();
+    listPanel->Show();
     UserPanel->GetParent()->Layout();  // Recalculate layout for the parent panel
 }
 
@@ -251,7 +248,6 @@ void MainFrame::saveUsersToFile(const std::vector<wxString> &lists, const std::s
     for(const wxString& list : lists) {
         wxString description = list;
         std::replace(description.begin(), description.end(), ' ', '_');
-
         ostream << '\n' << description;
     }
 }
@@ -315,7 +311,6 @@ void MainFrame::SetupShopSizers() {
     shopsubSizer2->Add(shopbackButton);
     shopSizer->Add(shopsubSizer2);
 
-
     wxGridSizer* outSizer = new wxGridSizer(1);
     outSizer->Add(shopSizer,wxSizerFlags().Border(wxALL,25).Expand());
 
@@ -353,6 +348,7 @@ void MainFrame::shopClearButton(wxCommandEvent &evt) {
         shopList->Clear();
     }
 }
+
 void MainFrame::shopListKeyDown(wxKeyEvent &evt) {
     int keyCode = evt.GetKeyCode();
 
@@ -367,14 +363,11 @@ void MainFrame::ShowItemPanel(wxMouseEvent &evt) {
         wxMessageBox("No Shop selected!");
         return;
     }
-
     currentShop = shopList->GetString(shopList->GetSelection());
     wxString selectedList = currentShop;
 
-    // Costruisci il nome del file per la spesa selezionato
     std::string filename = std::string(currentUser.mb_str()) + "_" + std::string(currentShop.mb_str()) + "item.txt";
 
-    // Carica le liste di spesa dell'utente
     std::vector<Item> Items = loadItemstoShop(filename);
 
     ItemList->Clear();
@@ -385,10 +378,9 @@ void MainFrame::ShowItemPanel(wxMouseEvent &evt) {
         ItemQuantityList->Insert(updatedQuantityStr, ItemQuantityList->GetCount());  // Insert the quantity string
     }
 
-    listPanel->Hide();  // Hide the shop panel
-    ItemPanel->Show();  // Show the list panel
-    ItemPanel->GetParent()->Layout();  // Recalculate layout for the parent panel
-
+    listPanel->Hide();
+    ItemPanel->Show();
+    ItemPanel->GetParent()->Layout();
 }
 
 void MainFrame::Goback(wxCommandEvent &evt) {
@@ -444,7 +436,6 @@ std::vector<wxString> MainFrame::loadShopstoUser(const std::string &filename) {
     istream>>n;
     for (int i=0;i<n;i++){
         std::string description;
-
         istream>>description;
         replace(description.begin(),description.end(),'_',' ');
         lists.push_back(description);
@@ -562,20 +553,16 @@ void MainFrame::AddItem() {
     int number = ItemSpin->GetValue();
 
     if (!description.IsEmpty() && number > 0) {
-        // Converti la descrizione dell'elemento in minuscolo
         description.MakeLower();
 
-        // Controlla se l'elemento è già presente nella lista
         int itemCount = ItemList->GetCount();
         bool itemFound = false;
 
         for (int i = 0; i < itemCount; ++i) {
-            // Ottieni e converti la descrizione esistente in minuscolo
             wxString existingDescription = ItemList->GetString(i);
             existingDescription.MakeLower();
 
             if (existingDescription == description) {
-                // Se l'elemento è già presente, aggiorna solo la quantità
                 wxString existingQuantityStr = ItemQuantityList->GetString(i);
                 int existingQuantity = wxAtoi(existingQuantityStr);
                 existingQuantity += number;
@@ -587,13 +574,11 @@ void MainFrame::AddItem() {
         }
 
         if (!itemFound) {
-            // Se l'elemento non è stato trovato, aggiungilo come nuovo elemento
             ItemList->Insert(description, itemCount);
             wxString numberStr = wxString::Format(wxT("%d"), number);
             ItemQuantityList->Append(numberStr);
         }
 
-        // Pulisce il campo di input e resetta il valore dello spinner
         ItemField->Clear();
         ItemSpin->SetValue(0);
     }
@@ -660,8 +645,8 @@ void MainFrame::saveItemstoShops(const std::vector<Item> &items, const std::stri
     ostream << items.size();
 
     for (const Item& item : items) {
-        std::string name = std::string(item.name.mb_str());  // Converti wxString in std::string
-        std::replace(name.begin(), name.end(), ' ', '_');  // Sostituisci gli spazi con underscore
+        std::string name = std::string(item.name.mb_str());
+        std::replace(name.begin(), name.end(), ' ', '_');
 
         ostream << '\n' << name << ' ' << item.quantity;
     }
