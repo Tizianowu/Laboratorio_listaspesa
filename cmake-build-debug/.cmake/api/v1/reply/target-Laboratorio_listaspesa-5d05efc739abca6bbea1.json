@@ -21,7 +21,7 @@
 		"files" : 
 		[
 			"CMakeLists.txt",
-			"/Applications/CLion.app/Contents/bin/cmake/mac/aarch64/share/cmake-3.28/Modules/UsewxWidgets.cmake"
+			"/opt/homebrew/Cellar/cmake/3.30.3/share/cmake/Modules/UsewxWidgets.cmake"
 		],
 		"nodes" : 
 		[
@@ -82,7 +82,7 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "-g -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -fcolor-diagnostics"
+					"fragment" : "-std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk"
 				}
 			],
 			"defines" : 
@@ -143,10 +143,6 @@
 	{
 		"commandFragments" : 
 		[
-			{
-				"fragment" : "-g",
-				"role" : "flags"
-			},
 			{
 				"fragment" : "",
 				"role" : "flags"

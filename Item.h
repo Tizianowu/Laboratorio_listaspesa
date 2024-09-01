@@ -10,6 +10,5 @@
 struct Item{
     wxString name;
     int quantity;
-    Item(const wxString& itemName, int itemQuantity)
-            : name(itemName), quantity(itemQuantity) {}
+    Item(const wxString& itemName, int itemQuantity): name(itemName), quantity(itemQuantity) {}
 };

@@ -128,7 +128,6 @@ void MainFrame::OnWindowClosed(wxCloseEvent &evt) {
     saveUsersToFile(tasks,"users.txt");
 
     if (!currentUser.IsEmpty()) {
-
         std::vector<wxString> shops;
         for (int i = 0; i < shopList->GetCount(); i++) {
             shops.push_back(shopList->GetString(i));
@@ -149,6 +148,26 @@ void MainFrame::OnWindowClosed(wxCloseEvent &evt) {
             // Salva gli items in un file associato all'utente
             std::string itemsFilename =std::string(currentUser.mb_str()) + "_" + std::string(currentShop.mb_str()) + "item.txt";
             saveItemstoShops(shopItems, itemsFilename);
+        }
+    }
+    if (userList->GetCount() == 0) {
+        std::string directoryPath = "/Users/tizianowu/Laboratorio_listaspesa/cmake-build-debug";
+        // Verifica se la directory esiste
+        if (std::filesystem::exists(directoryPath) && std::filesystem::is_directory(directoryPath)) {
+            try {
+                // Itera e rimuove i file .txt nella directory specificata
+                for (const auto& entry : std::filesystem::directory_iterator(directoryPath)) {
+                    if (entry.is_regular_file() && entry.path().extension() == ".txt") {
+                        if (entry.path().filename() != "CMakeCache.txt") {
+                            std::filesystem::remove(entry.path());
+                        }
+                    }
+                }
+            } catch (const std::filesystem::filesystem_error& e) {
+                std::cerr << "Errore del file system: " << e.what() << std::endl;
+            }
+        } else {
+            std::cerr << "La directory specificata non esiste o non è una directory valida." << std::endl;
         }
     }
     evt.Skip();
