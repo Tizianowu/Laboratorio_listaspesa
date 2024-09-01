@@ -868,6 +868,7 @@ CMakeFiles/Laboratorio_listaspesa.dir/Mainframe.cpp.o: \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/__filesystem/recursive_directory_iterator.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/__filesystem/u8path.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/fstream \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/iostream \
   /opt/homebrew/include/wx-3.2/wx/string.h \
   /opt/homebrew/include/wx-3.2/wx/defs.h \
   /opt/homebrew/include/wx-3.2/wx/platform.h \
@@ -1123,7 +1124,6 @@ CMakeFiles/Laboratorio_listaspesa.dir/Mainframe.cpp.o: \
   /opt/homebrew/include/wx-3.2/wx/textentry.h \
   /opt/homebrew/include/wx-3.2/wx/osx/textentry.h \
   /opt/homebrew/include/wx-3.2/wx/ioswrap.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/iostream \
   /opt/homebrew/include/wx-3.2/wx/osx/textctrl.h \
   /opt/homebrew/include/wx-3.2/wx/slider.h \
   /opt/homebrew/include/wx-3.2/wx/osx/slider.h \

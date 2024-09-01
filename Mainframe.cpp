@@ -6,6 +6,8 @@
 #include <filesystem>
 #include <fstream>
 #include <algorithm>
+#include <iostream>
+#include <cstdio>
 #include <wx/string.h>
 #include "Mainframe.h"
 MainFrame::MainFrame(const wxString &title) : wxFrame(nullptr, wxID_ANY, title) {
@@ -504,6 +506,7 @@ void MainFrame::BindItemEvents() {
     clearItemsButton->Bind(wxEVT_BUTTON, &MainFrame::ItemClearButton, this);
     ItemList->Bind(wxEVT_KEY_DOWN, &MainFrame::ItemKeyDown, this);
     ItemBackButton->Bind(wxEVT_BUTTON,&MainFrame::ItemGoback,this);
+    ShareButton->Bind(wxEVT_BUTTON,&MainFrame::ShareList,this);
 }
 
 
@@ -546,6 +549,38 @@ void MainFrame::ItemGoback(wxCommandEvent &evt) {
     ItemPanel->GetParent()->Layout();
 }
 
+void MainFrame::ShareList(wxCommandEvent &evt) {
+    if(ItemList->GetCount()>0){
+        wxTextEntryDialog answer(this,"a chi vuoi condividere la lista?", "");
+        int result = answer.ShowModal();
+        if (answer.ShowModal() == wxID_OK) {
+            wxString inputText = answer.GetValue();  // Ottieni il testo inserito dall'utente
+            bool found = false;  // Flag to check if a match is found
+            for (int i = 0; i < userList->GetCount(); i++) {  // Correct loop condition
+                if (inputText == userList->GetString(i)) {
+                    found = true;  // Set the flag to true if a match is found
+                    break;  // Optional: exit the loop after finding the first match
+                }
+            }
+            if(found){
+                std::vector<Item> shopItems;
+                for (int i = 0; i < ItemList->GetCount(); i++) {
+                    wxString itemName = ItemList->GetString(i);
+                    int itemQuantity = wxAtoi(ItemQuantityList->GetString(i)); // Converte wxString a int
+                    shopItems.push_back(Item(itemName, itemQuantity));
+                }
+                std::string shopFileName = std::string(inputText.mb_str()) + "_shops.txt";
+                // Aggiungiamo il currentShop al file delle shops
+                appendShopToUser(currentShop, shopFileName);
+                // Salva gli items in un file associato all'utente
+                std::string itemsFilename =std::string(inputText.mb_str()) + "_" + std::string(currentShop.mb_str()) + "item.txt";
+                saveItemstoShops(shopItems, itemsFilename);
+            }
+        }
+        else
+            wxMessageBox("non esiste l'utente inserito");
+    }
+}
 
 
 void MainFrame::AddItem() {
@@ -649,5 +684,74 @@ void MainFrame::saveItemstoShops(const std::vector<Item> &items, const std::stri
         std::replace(name.begin(), name.end(), ' ', '_');
 
         ostream << '\n' << name << ' ' << item.quantity;
+    }
+}
+
+void MainFrame::appendShopToUser(const wxString &shop, const std::string &filename) {
+    // Convertiamo wxString in std::string
+    std::string shopStr = std::string(shop.mb_str());
+    std::replace(shopStr.begin(), shopStr.end(), ' ', '_');
+
+    // Leggi il contenuto esistente del file
+    std::ifstream inputFile(filename);
+    if (!inputFile) {
+        std::cerr << "Errore nell'apertura del file per la lettura!" << std::endl;
+        return;
+    }
+
+    std::string numberLine;
+    std::getline(inputFile, numberLine); // Leggi la prima riga (dimensione della lista)
+
+    std::string existingContent;
+    std::string line;
+    bool shopExists = false;
+
+    // Controlla se il negozio esiste già
+    while (std::getline(inputFile, line)) {
+        if (line == shopStr) {
+            shopExists = true;
+            break;
+        }
+        existingContent += line + '\n';
+    }
+    inputFile.close();
+
+    if (shopExists) {
+        std::cout << "Il negozio '" << shopStr << "' esiste già nel file." << std::endl;
+        return; // Non aggiungere il negozio se esiste già
+    }
+
+    // Estrai e incrementa il numero
+    int number = 0;
+    if (!numberLine.empty()) {
+        try {
+            number = std::stoi(numberLine);
+        } catch (...) {
+            number = 0; // Imposta a 0 in caso di errore nella conversione
+        }
+    }
+    number++; // Incrementa il numero
+
+    // Prepara il nuovo contenuto
+    std::string newContent = std::to_string(number) + '\n' + shopStr + '\n' + existingContent;
+
+    // Scrivi il nuovo contenuto in un file temporaneo
+    std::string tempFilename = filename + ".tmp";
+    std::ofstream outputFile(tempFilename);
+    if (!outputFile) {
+        std::cerr << "Errore nell'apertura del file temporaneo per la scrittura!" << std::endl;
+        return;
+    }
+    outputFile << newContent;
+    outputFile.close();
+
+    // Sostituisci il file originale con il file temporaneo
+    if (std::remove(filename.c_str()) != 0) {
+        std::cerr << "Errore nella rimozione del file originale!" << std::endl;
+        return;
+    }
+
+    if (std::rename(tempFilename.c_str(), filename.c_str()) != 0) {
+        std::cerr << "Errore nella sostituzione del file!" << std::endl;
     }
 }

@@ -78,10 +78,12 @@ private:
     void ItemClearButton(wxCommandEvent& evt);
     void ItemKeyDown(wxKeyEvent& evt);
     void ItemGoback(wxCommandEvent& evt);
+    void ShareList(wxCommandEvent& evt);
 
     void AddItem();
     void DeleteSelectedItem();
     void updateShop();
+    void appendShopToUser(const wxString &shop, const std::string &filename);
 
     std::vector<Item> loadItemstoShop(const std::string& filename);
     void saveItemstoShops(const std::vector<Item> &items, const std::string &filename);
