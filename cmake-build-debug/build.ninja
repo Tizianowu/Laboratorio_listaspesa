@@ -73,14 +73,6 @@ build CMakeFiles/Laboratorio_listaspesa.dir/main.cpp.o: CXX_COMPILER__Laboratori
   OBJECT_DIR = CMakeFiles/Laboratorio_listaspesa.dir
   OBJECT_FILE_DIR = CMakeFiles/Laboratorio_listaspesa.dir
 
-build CMakeFiles/Laboratorio_listaspesa.dir/testing/RunAllTest.cpp.o: CXX_COMPILER__Laboratorio_listaspesa_unscanned_Debug /Users/tizianowu/Laboratorio_listaspesa/testing/RunAllTest.cpp || cmake_object_order_depends_target_Laboratorio_listaspesa
-  DEFINES = -DWXUSINGDLL -D_FILE_OFFSET_BITS=64 -D__WXMAC__ -D__WXOSX_COCOA__ -D__WXOSX__
-  DEP_FILE = CMakeFiles/Laboratorio_listaspesa.dir/testing/RunAllTest.cpp.o.d
-  FLAGS = -g -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -fcolor-diagnostics
-  INCLUDES = -isystem /opt/homebrew/lib/wx/include/osx_cocoa-unicode-3.2 -isystem /opt/homebrew/include/wx-3.2
-  OBJECT_DIR = CMakeFiles/Laboratorio_listaspesa.dir
-  OBJECT_FILE_DIR = CMakeFiles/Laboratorio_listaspesa.dir/testing
-
 
 # =============================================================================
 # Link build statements for EXECUTABLE target Laboratorio_listaspesa
@@ -89,7 +81,7 @@ build CMakeFiles/Laboratorio_listaspesa.dir/testing/RunAllTest.cpp.o: CXX_COMPIL
 #############################################
 # Link the executable Laboratorio_listaspesa
 
-build Laboratorio_listaspesa: CXX_EXECUTABLE_LINKER__Laboratorio_listaspesa_Debug CMakeFiles/Laboratorio_listaspesa.dir/App.cpp.o CMakeFiles/Laboratorio_listaspesa.dir/Mainframe.cpp.o CMakeFiles/Laboratorio_listaspesa.dir/main.cpp.o CMakeFiles/Laboratorio_listaspesa.dir/testing/RunAllTest.cpp.o
+build Laboratorio_listaspesa: CXX_EXECUTABLE_LINKER__Laboratorio_listaspesa_Debug CMakeFiles/Laboratorio_listaspesa.dir/App.cpp.o CMakeFiles/Laboratorio_listaspesa.dir/Mainframe.cpp.o CMakeFiles/Laboratorio_listaspesa.dir/main.cpp.o
   FLAGS = -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk
   LINK_LIBRARIES = -Wl,-rpath,/opt/homebrew/lib  -L/opt/homebrew/lib  -framework IOKit  -framework Carbon  -framework Cocoa  -framework QuartzCore  -framework AudioToolbox  -framework System  -framework OpenGL  -lwx_osx_cocoau_core-3.2  -lwx_baseu-3.2
   LINK_PATH = -L/opt/homebrew/lib
@@ -186,6 +178,14 @@ build testing/CMakeFiles/UnitTest.dir/RunAllTest.cpp.o: CXX_COMPILER__UnitTest_u
   OBJECT_DIR = testing/CMakeFiles/UnitTest.dir
   OBJECT_FILE_DIR = testing/CMakeFiles/UnitTest.dir
 
+build testing/CMakeFiles/UnitTest.dir/ItemTest.cpp.o: CXX_COMPILER__UnitTest_unscanned_Debug /Users/tizianowu/Laboratorio_listaspesa/testing/ItemTest.cpp || cmake_object_order_depends_target_UnitTest
+  DEFINES = -DWXUSINGDLL -D_FILE_OFFSET_BITS=64 -D__WXMAC__ -D__WXOSX_COCOA__ -D__WXOSX__
+  DEP_FILE = testing/CMakeFiles/UnitTest.dir/ItemTest.cpp.o.d
+  FLAGS = -g -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -fcolor-diagnostics
+  INCLUDES = -I/Users/tizianowu/Laboratorio_listaspesa/testing/./lib/googletest/include -isystem /opt/homebrew/lib/wx/include/osx_cocoa-unicode-3.2 -isystem /opt/homebrew/include/wx-3.2 -isystem /Users/tizianowu/Laboratorio_listaspesa/testing/lib/googletest/googletest/include -isystem /Users/tizianowu/Laboratorio_listaspesa/testing/lib/googletest/googletest
+  OBJECT_DIR = testing/CMakeFiles/UnitTest.dir
+  OBJECT_FILE_DIR = testing/CMakeFiles/UnitTest.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target UnitTest
@@ -194,9 +194,9 @@ build testing/CMakeFiles/UnitTest.dir/RunAllTest.cpp.o: CXX_COMPILER__UnitTest_u
 #############################################
 # Link the executable testing/UnitTest
 
-build testing/UnitTest: CXX_EXECUTABLE_LINKER__UnitTest_Debug testing/CMakeFiles/UnitTest.dir/RunAllTest.cpp.o | lib/libgtest.a || lib/libgtest.a
+build testing/UnitTest: CXX_EXECUTABLE_LINKER__UnitTest_Debug testing/CMakeFiles/UnitTest.dir/RunAllTest.cpp.o testing/CMakeFiles/UnitTest.dir/ItemTest.cpp.o | lib/libgtest.a lib/libgtest.a || lib/libgtest.a
   FLAGS = -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk
-  LINK_LIBRARIES = -Wl,-rpath,/opt/homebrew/lib  lib/libgtest.a  -lpthread  -L/opt/homebrew/lib  -framework IOKit  -framework Carbon  -framework Cocoa  -framework QuartzCore  -framework AudioToolbox  -framework System  -framework OpenGL  -lwx_osx_cocoau_core-3.2  -lwx_baseu-3.2
+  LINK_LIBRARIES = -Wl,-rpath,/opt/homebrew/lib  lib/libgtest.a  -lpthread  -L/opt/homebrew/lib  -framework IOKit  -framework Carbon  -framework Cocoa  -framework QuartzCore  -framework AudioToolbox  -framework System  -framework OpenGL  -lwx_osx_cocoau_core-3.2  -lwx_baseu-3.2  lib/libgtest.a
   LINK_PATH = -L/opt/homebrew/lib
   OBJECT_DIR = testing/CMakeFiles/UnitTest.dir
   POST_BUILD = :
@@ -356,7 +356,7 @@ build cmake_object_order_depends_target_gmock: phony || cmake_object_order_depen
 build testing/lib/googletest/googlemock/CMakeFiles/gmock.dir/src/gmock-all.cc.o: CXX_COMPILER__gmock_unscanned_Debug /Users/tizianowu/Laboratorio_listaspesa/testing/lib/googletest/googlemock/src/gmock-all.cc || cmake_object_order_depends_target_gmock
   DEFINES = -DWXUSINGDLL -D_FILE_OFFSET_BITS=64 -D__WXMAC__ -D__WXOSX_COCOA__ -D__WXOSX__
   DEP_FILE = testing/lib/googletest/googlemock/CMakeFiles/gmock.dir/src/gmock-all.cc.o.d
-  FLAGS = -g -std=c++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -fcolor-diagnostics -Wall -Wshadow -Wconversion -Wundef -DGTEST_HAS_PTHREAD=1 -fexceptions -W -Wpointer-arith -Wreturn-type -Wcast-qual -Wwrite-strings -Wswitch -Wunused-parameter -Wcast-align -Winline -Wredundant-decls -Wchar-subscripts
+  FLAGS = -g -std=c++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -fcolor-diagnostics  -DGTEST_HAS_PTHREAD=1
   INCLUDES = -I/Users/tizianowu/Laboratorio_listaspesa/testing/lib/googletest/googlemock/include -I/Users/tizianowu/Laboratorio_listaspesa/testing/lib/googletest/googlemock -isystem /opt/homebrew/lib/wx/include/osx_cocoa-unicode-3.2 -isystem /opt/homebrew/include/wx-3.2 -isystem /Users/tizianowu/Laboratorio_listaspesa/testing/lib/googletest/googletest/include -isystem /Users/tizianowu/Laboratorio_listaspesa/testing/lib/googletest/googletest
   OBJECT_DIR = testing/lib/googletest/googlemock/CMakeFiles/gmock.dir
   OBJECT_FILE_DIR = testing/lib/googletest/googlemock/CMakeFiles/gmock.dir/src
@@ -390,7 +390,7 @@ build cmake_object_order_depends_target_gmock_main: phony || cmake_object_order_
 build testing/lib/googletest/googlemock/CMakeFiles/gmock_main.dir/src/gmock_main.cc.o: CXX_COMPILER__gmock_main_unscanned_Debug /Users/tizianowu/Laboratorio_listaspesa/testing/lib/googletest/googlemock/src/gmock_main.cc || cmake_object_order_depends_target_gmock_main
   DEFINES = -DWXUSINGDLL -D_FILE_OFFSET_BITS=64 -D__WXMAC__ -D__WXOSX_COCOA__ -D__WXOSX__
   DEP_FILE = testing/lib/googletest/googlemock/CMakeFiles/gmock_main.dir/src/gmock_main.cc.o.d
-  FLAGS = -g -std=c++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -fcolor-diagnostics -Wall -Wshadow -Wconversion -Wundef -DGTEST_HAS_PTHREAD=1 -fexceptions -W -Wpointer-arith -Wreturn-type -Wcast-qual -Wwrite-strings -Wswitch -Wunused-parameter -Wcast-align -Winline -Wredundant-decls -Wchar-subscripts
+  FLAGS = -g -std=c++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -fcolor-diagnostics  -DGTEST_HAS_PTHREAD=1
   INCLUDES = -isystem /opt/homebrew/lib/wx/include/osx_cocoa-unicode-3.2 -isystem /opt/homebrew/include/wx-3.2 -isystem /Users/tizianowu/Laboratorio_listaspesa/testing/lib/googletest/googlemock/include -isystem /Users/tizianowu/Laboratorio_listaspesa/testing/lib/googletest/googlemock -isystem /Users/tizianowu/Laboratorio_listaspesa/testing/lib/googletest/googletest/include -isystem /Users/tizianowu/Laboratorio_listaspesa/testing/lib/googletest/googletest
   OBJECT_DIR = testing/lib/googletest/googlemock/CMakeFiles/gmock_main.dir
   OBJECT_FILE_DIR = testing/lib/googletest/googlemock/CMakeFiles/gmock_main.dir/src
@@ -494,7 +494,7 @@ build cmake_object_order_depends_target_gtest: phony || testing/lib/googletest/g
 build testing/lib/googletest/googletest/CMakeFiles/gtest.dir/src/gtest-all.cc.o: CXX_COMPILER__gtest_unscanned_Debug /Users/tizianowu/Laboratorio_listaspesa/testing/lib/googletest/googletest/src/gtest-all.cc || cmake_object_order_depends_target_gtest
   DEFINES = -DWXUSINGDLL -D_FILE_OFFSET_BITS=64 -D__WXMAC__ -D__WXOSX_COCOA__ -D__WXOSX__
   DEP_FILE = testing/lib/googletest/googletest/CMakeFiles/gtest.dir/src/gtest-all.cc.o.d
-  FLAGS = -g -std=c++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -fcolor-diagnostics -Wall -Wshadow -Wconversion -Wundef -DGTEST_HAS_PTHREAD=1 -fexceptions -W -Wpointer-arith -Wreturn-type -Wcast-qual -Wwrite-strings -Wswitch -Wunused-parameter -Wcast-align -Winline -Wredundant-decls -Wchar-subscripts
+  FLAGS = -g -std=c++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -fcolor-diagnostics  -DGTEST_HAS_PTHREAD=1
   INCLUDES = -I/Users/tizianowu/Laboratorio_listaspesa/testing/lib/googletest/googletest/include -I/Users/tizianowu/Laboratorio_listaspesa/testing/lib/googletest/googletest -isystem /opt/homebrew/lib/wx/include/osx_cocoa-unicode-3.2 -isystem /opt/homebrew/include/wx-3.2
   OBJECT_DIR = testing/lib/googletest/googletest/CMakeFiles/gtest.dir
   OBJECT_FILE_DIR = testing/lib/googletest/googletest/CMakeFiles/gtest.dir/src
@@ -528,7 +528,7 @@ build cmake_object_order_depends_target_gtest_main: phony || cmake_object_order_
 build testing/lib/googletest/googletest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.o: CXX_COMPILER__gtest_main_unscanned_Debug /Users/tizianowu/Laboratorio_listaspesa/testing/lib/googletest/googletest/src/gtest_main.cc || cmake_object_order_depends_target_gtest_main
   DEFINES = -DWXUSINGDLL -D_FILE_OFFSET_BITS=64 -D__WXMAC__ -D__WXOSX_COCOA__ -D__WXOSX__
   DEP_FILE = testing/lib/googletest/googletest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.o.d
-  FLAGS = -g -std=c++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -fcolor-diagnostics -Wall -Wshadow -Wconversion -Wundef -DGTEST_HAS_PTHREAD=1 -fexceptions -W -Wpointer-arith -Wreturn-type -Wcast-qual -Wwrite-strings -Wswitch -Wunused-parameter -Wcast-align -Winline -Wredundant-decls -Wchar-subscripts
+  FLAGS = -g -std=c++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -fcolor-diagnostics  -DGTEST_HAS_PTHREAD=1
   INCLUDES = -isystem /opt/homebrew/lib/wx/include/osx_cocoa-unicode-3.2 -isystem /opt/homebrew/include/wx-3.2 -isystem /Users/tizianowu/Laboratorio_listaspesa/testing/lib/googletest/googletest/include -isystem /Users/tizianowu/Laboratorio_listaspesa/testing/lib/googletest/googletest
   OBJECT_DIR = testing/lib/googletest/googletest/CMakeFiles/gtest_main.dir
   OBJECT_FILE_DIR = testing/lib/googletest/googletest/CMakeFiles/gtest_main.dir/src

@@ -11,4 +11,12 @@ struct Item{
     wxString name;
     int quantity;
     Item(const wxString& itemName, int itemQuantity): name(itemName), quantity(itemQuantity) {}
+
+    const wxString &getName() const {
+        return name;
+    }
+
+    int getQuantity() const {
+        return quantity;
+    }
 };

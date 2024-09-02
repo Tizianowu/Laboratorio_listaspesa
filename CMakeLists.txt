@@ -1,5 +1,6 @@
-project(Laboratorio_listaspesa)
+
 cmake_minimum_required(VERSION 3.28)
+project(Laboratorio_listaspesa)
 aux_source_directory(. SRC_LIST)
 set(CMAKE_CXX_STANDARD 17++)
 # Controllo della piattaforma per configurazioni specifiche

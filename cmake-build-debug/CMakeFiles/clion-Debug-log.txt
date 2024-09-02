@@ -1,23 +1,4 @@
 /Applications/CLion.app/Contents/bin/cmake/mac/aarch64/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/Applications/CLion.app/Contents/bin/ninja/mac/aarch64/ninja -G Ninja -S /Users/tizianowu/Laboratorio_listaspesa -B /Users/tizianowu/Laboratorio_listaspesa/cmake-build-debug
-CMake Warning (dev) at CMakeLists.txt:1 (project):
-  cmake_minimum_required() should be called prior to this top-level project()
-  call.  Please see the cmake-commands(7) manual for usage documentation of
-  both commands.
-This warning is for project developers.  Use -Wno-dev to suppress it.
-
-CMake Warning (dev) at CMakeLists.txt:1 (project):
-  Policy CMP0048 is not set: project() command manages VERSION variables.
-  Run "cmake --help-policy CMP0048" for policy details.  Use the cmake_policy
-  command to set the policy and suppress this warning.
-
-  The following variable(s) would be set to empty:
-
-    CMAKE_PROJECT_VERSION
-    CMAKE_PROJECT_VERSION_MAJOR
-    CMAKE_PROJECT_VERSION_MINOR
-    CMAKE_PROJECT_VERSION_PATCH
-This warning is for project developers.  Use -Wno-dev to suppress it.
-
 gtest_SOURCE_DIR is set to: ./lib/googletest
 Include directories are: ./lib/googletest/include
 -- Configuring done (0.4s)

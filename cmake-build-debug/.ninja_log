@@ -1,10 +1,15 @@
 # ninja log v6
 6	793	1725314623977348804	CMakeFiles/Laboratorio_listaspesa.dir/App.cpp.o	ed1a7077963733a9
-3	463	1725314645660453636	build.ninja	8b3596eb888aab6e
+3	463	1725314905091102624	build.ninja	8b3596eb888aab6e
 6	969	1725314623977580347	CMakeFiles/Laboratorio_listaspesa.dir/Mainframe.cpp.o	36c80c5c890b0343
+3	1206	1725314659755041735	testing/lib/googletest/googletest/CMakeFiles/gtest.dir/src/gtest-all.cc.o	605d5c86c4cd095a
 969	1076	1725314624940644503	Laboratorio_listaspesa	8364e58cfa389780
 7	283	1725314623978719150	CMakeFiles/Laboratorio_listaspesa.dir/main.cpp.o	6625f84cc591af2
 4	372	1725314659755622365	testing/CMakeFiles/UnitTest.dir/RunAllTest.cpp.o	f4bee1d009879269
-3	1206	1725314659755041735	testing/lib/googletest/googletest/CMakeFiles/gtest.dir/src/gtest-all.cc.o	605d5c86c4cd095a
 1206	1249	1725314660957802992	lib/libgtest.a	50cd3b761d2f4e79
 1249	1347	1725314661000692288	testing/UnitTest	ac5de85d6530fe16
+9	1050	1725315066280789130	testing/CMakeFiles/UnitTest.dir/ItemTest.cpp.o	dc627538cb13110b
+7	1434	1725315066279309667	testing/lib/googletest/googletest/CMakeFiles/gtest.dir/src/gtest-all.cc.o	de2e9a6afd102f6
+1434	1476	1725315067705989202	lib/libgtest.a	50cd3b761d2f4e79
+5	766	1725315085892480440	testing/CMakeFiles/UnitTest.dir/ItemTest.cpp.o	dc627538cb13110b
+766	859	1725315086653738396	testing/UnitTest	7096c8175482e9e3
