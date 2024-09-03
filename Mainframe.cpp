@@ -561,7 +561,7 @@ void MainFrame::ShareList(wxCommandEvent &evt) {
                     break;  // Optional: exit the loop after finding the first match
                 }
             }
-            if(found){
+            if (found) {
                 std::vector<Item> shopItems;
                 for (int i = 0; i < ItemList->GetCount(); i++) {
                     wxString itemName = ItemList->GetString(i);
@@ -572,12 +572,12 @@ void MainFrame::ShareList(wxCommandEvent &evt) {
                 // Aggiungiamo il currentShop al file delle shops
                 appendShopToUser(currentShop, shopFileName);
                 // Salva gli items in un file associato all'utente
-                std::string itemsFilename =std::string(inputText.mb_str()) + "_" + std::string(currentShop.mb_str()) + "item.txt";
+                std::string itemsFilename =
+                        std::string(inputText.mb_str()) + "_" + std::string(currentShop.mb_str()) + "item.txt";
                 saveItemstoShops(shopItems, itemsFilename);
-            }
+            } else
+                wxMessageBox("non esiste l'utente inserito");
         }
-        else
-            wxMessageBox("non esiste l'utente inserito");
     }
 }
 
