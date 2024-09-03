@@ -14,7 +14,8 @@ message("gtest_SOURCE_DIR is set to: ${gtest_SOURCE_DIR}")
 message("Include directories are: ${gtest_SOURCE_DIR}/include")
 
 set(TEST_SOURCE_FILES
-        ItemTest.cpp)
+        Mainframe.cpp
+)
 add_executable(UnitTest
         RunAllTest.cpp
         ${TEST_SOURCE_FILES})
@@ -28,7 +29,6 @@ find_package(wxWidgets REQUIRED COMPONENTS core base)
 
 include_directories(${wxWidgets_INCLUDE_DIRS})
 
-target_link_libraries(UnitTest
-        ${wxWidgets_LIBRARIES}
-        gtest
-)
+find_package(wxWidgets REQUIRED COMPONENTS core base)
+include(${wxWidgets_USE_FILE})
+target_link_libraries(UnitTest ${wxWidgets_LIBRARIES})

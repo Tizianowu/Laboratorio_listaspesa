@@ -178,9 +178,9 @@ build testing/CMakeFiles/UnitTest.dir/RunAllTest.cpp.o: CXX_COMPILER__UnitTest_u
   OBJECT_DIR = testing/CMakeFiles/UnitTest.dir
   OBJECT_FILE_DIR = testing/CMakeFiles/UnitTest.dir
 
-build testing/CMakeFiles/UnitTest.dir/ItemTest.cpp.o: CXX_COMPILER__UnitTest_unscanned_Debug /Users/tizianowu/Laboratorio_listaspesa/testing/ItemTest.cpp || cmake_object_order_depends_target_UnitTest
+build testing/CMakeFiles/UnitTest.dir/Mainframe.cpp.o: CXX_COMPILER__UnitTest_unscanned_Debug /Users/tizianowu/Laboratorio_listaspesa/testing/Mainframe.cpp || cmake_object_order_depends_target_UnitTest
   DEFINES = -DWXUSINGDLL -D_FILE_OFFSET_BITS=64 -D__WXMAC__ -D__WXOSX_COCOA__ -D__WXOSX__
-  DEP_FILE = testing/CMakeFiles/UnitTest.dir/ItemTest.cpp.o.d
+  DEP_FILE = testing/CMakeFiles/UnitTest.dir/Mainframe.cpp.o.d
   FLAGS = -g -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -fcolor-diagnostics
   INCLUDES = -I/Users/tizianowu/Laboratorio_listaspesa/testing/./lib/googletest/include -isystem /opt/homebrew/lib/wx/include/osx_cocoa-unicode-3.2 -isystem /opt/homebrew/include/wx-3.2 -isystem /Users/tizianowu/Laboratorio_listaspesa/testing/lib/googletest/googletest/include -isystem /Users/tizianowu/Laboratorio_listaspesa/testing/lib/googletest/googletest
   OBJECT_DIR = testing/CMakeFiles/UnitTest.dir
@@ -194,9 +194,9 @@ build testing/CMakeFiles/UnitTest.dir/ItemTest.cpp.o: CXX_COMPILER__UnitTest_uns
 #############################################
 # Link the executable testing/UnitTest
 
-build testing/UnitTest: CXX_EXECUTABLE_LINKER__UnitTest_Debug testing/CMakeFiles/UnitTest.dir/RunAllTest.cpp.o testing/CMakeFiles/UnitTest.dir/ItemTest.cpp.o | lib/libgtest.a lib/libgtest.a || lib/libgtest.a
+build testing/UnitTest: CXX_EXECUTABLE_LINKER__UnitTest_Debug testing/CMakeFiles/UnitTest.dir/RunAllTest.cpp.o testing/CMakeFiles/UnitTest.dir/Mainframe.cpp.o | lib/libgtest.a || lib/libgtest.a
   FLAGS = -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk
-  LINK_LIBRARIES = -Wl,-rpath,/opt/homebrew/lib  lib/libgtest.a  -lpthread  -L/opt/homebrew/lib  -framework IOKit  -framework Carbon  -framework Cocoa  -framework QuartzCore  -framework AudioToolbox  -framework System  -framework OpenGL  -lwx_osx_cocoau_core-3.2  -lwx_baseu-3.2  lib/libgtest.a
+  LINK_LIBRARIES = -Wl,-rpath,/opt/homebrew/lib  lib/libgtest.a  -lpthread  -L/opt/homebrew/lib  -framework IOKit  -framework Carbon  -framework Cocoa  -framework QuartzCore  -framework AudioToolbox  -framework System  -framework OpenGL  -lwx_osx_cocoau_core-3.2  -lwx_baseu-3.2
   LINK_PATH = -L/opt/homebrew/lib
   OBJECT_DIR = testing/CMakeFiles/UnitTest.dir
   POST_BUILD = :

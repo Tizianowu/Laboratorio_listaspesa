@@ -87,7 +87,7 @@ void MainFrame::BindEventHandlers() {
 
 
 
-void MainFrame::AddUserButtonClicked(wxCommandEvent &evt) {
+void MainFrame::AddUserButtonClicked(const wxCommandEvent &evt) {
     AddUser();
 }
 
@@ -104,7 +104,7 @@ void MainFrame::OnListKeyDown(wxKeyEvent &evt) {
     }
 }
 
-void MainFrame::ClearButtonClicked(wxCommandEvent &evt) {
+void MainFrame::ClearButtonClicked(const wxCommandEvent &evt) {
     if(userList->IsEmpty())
         return;
     wxMessageDialog dialog(this,"are you sure you want to clear all?","clear",wxYES_NO | wxCANCEL);
@@ -511,7 +511,7 @@ void MainFrame::BindItemEvents() {
 
 
 
-void MainFrame::AddItemButtonClicked(wxCommandEvent& evt) {
+void MainFrame::AddItemButtonClicked(const wxCommandEvent& evt) {
     AddItem();
 }
 
@@ -519,7 +519,7 @@ void MainFrame::ItemListKeyDown(wxCommandEvent& evt) {
     AddItem();
 }
 
-void MainFrame::ItemKeyDown(wxKeyEvent &evt) {
+void MainFrame::ItemKeyDown(const wxKeyEvent &evt) {
     int keyCode = evt.GetKeyCode();
 
     if (keyCode == WXK_DELETE || keyCode == WXK_BACK) {
@@ -552,7 +552,6 @@ void MainFrame::ItemGoback(wxCommandEvent &evt) {
 void MainFrame::ShareList(wxCommandEvent &evt) {
     if(ItemList->GetCount()>0){
         wxTextEntryDialog answer(this,"a chi vuoi condividere la lista?", "");
-        int result = answer.ShowModal();
         if (answer.ShowModal() == wxID_OK) {
             wxString inputText = answer.GetValue();  // Ottieni il testo inserito dall'utente
             bool found = false;  // Flag to check if a match is found

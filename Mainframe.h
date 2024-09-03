@@ -12,15 +12,15 @@
 class MainFrame : public wxFrame {
 public:
     MainFrame(const wxString &title);
-private:
+
     void CreateControls();
     void Setupsizers();
     void BindEventHandlers();
 
-    void AddUserButtonClicked(wxCommandEvent& evt);
+    void AddUserButtonClicked(const wxCommandEvent& evt);
     void UserInputEnter(wxCommandEvent&evt);
     void OnListKeyDown(wxKeyEvent &evt);   //serve per delete elemento selezionato
-    void ClearButtonClicked(wxCommandEvent& evt);  //server per clear all
+    void ClearButtonClicked(const wxCommandEvent& evt);  //server per clear all
     void ShowListPanel(wxMouseEvent& evt);
     void OnWindowClosed(wxCloseEvent& evt);  // keep the panel when we close it
 
@@ -73,10 +73,10 @@ private:
     void SetupItemSizers();
     void BindItemEvents();
 
-    void AddItemButtonClicked(wxCommandEvent& evt);
+    void AddItemButtonClicked(const wxCommandEvent& evt);
     void ItemListKeyDown(wxCommandEvent& evt);
     void ItemClearButton(wxCommandEvent& evt);
-    void ItemKeyDown(wxKeyEvent& evt);
+    void ItemKeyDown(const wxKeyEvent& evt);
     void ItemGoback(wxCommandEvent& evt);
     void ShareList(wxCommandEvent& evt);
 

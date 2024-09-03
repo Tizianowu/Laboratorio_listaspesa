@@ -1,6 +1,6 @@
 /Applications/CLion.app/Contents/bin/cmake/mac/aarch64/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/Applications/CLion.app/Contents/bin/ninja/mac/aarch64/ninja -G Ninja -S /Users/tizianowu/Laboratorio_listaspesa -B /Users/tizianowu/Laboratorio_listaspesa/cmake-build-debug
 gtest_SOURCE_DIR is set to: ./lib/googletest
 Include directories are: ./lib/googletest/include
--- Configuring done (0.4s)
+-- Configuring done (1.0s)
 -- Generating done (0.0s)
 -- Build files have been written to: /Users/tizianowu/Laboratorio_listaspesa/cmake-build-debug
