@@ -19,7 +19,11 @@ add_executable(${PROJECT_NAME} ${SRC_LIST}
         App.h
         Mainframe.cpp
         Mainframe.h
-        Item.h)
+        Item.h
+        Shops.cpp
+        Shops.h
+        User.cpp
+        User.h)
 
 # Impostazioni specifiche di compilazione per macOS
 if(APPLE)

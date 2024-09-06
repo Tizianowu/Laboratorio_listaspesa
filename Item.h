@@ -10,7 +10,22 @@
 struct Item{
     wxString name;
     int quantity;
-    Item(const wxString& itemName, int itemQuantity): name(itemName), quantity(itemQuantity) {}
+    bool bought;
+    Item(const wxString& itemName, int itemQuantity) {
+        try {
+            if (itemQuantity < 0) {
+                throw std::invalid_argument("Quantity cannot be negative.");
+            }
+            name = itemName;
+            quantity = itemQuantity;
+            bought = false;
+        }
+        catch (const std::invalid_argument& e) {
+            std::cerr << "Error: " << e.what() << std::endl;
+            quantity = 0; // Impostiamo un valore predefinito in caso di errore
+        }
+    }
+
 
     const wxString &getName() const {
         return name;

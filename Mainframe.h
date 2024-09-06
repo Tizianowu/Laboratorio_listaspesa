@@ -6,6 +6,8 @@
 #define LABORATORIO_LISTASPESA_MAINFRAME_H
 #include <wx/wx.h>
 #include <wx/spinctrl.h>
+#include "User.h"
+#include "Shops.h"
 #include "Item.h"
 
 
